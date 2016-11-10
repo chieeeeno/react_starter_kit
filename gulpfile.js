@@ -31,6 +31,7 @@ function bundle(){
     .pipe(source('bundle.js'))
     .pipe(buffer())
     .pipe($.sourcemaps.init({loadMaps: true}))
+    .pipe($.uglify())
     .pipe($.sourcemaps.write('./'))
     .pipe(gulp.dest('./js'));
 }
@@ -115,6 +116,10 @@ gulp.task('bs-reload', function() {
 
 // start webserver
 gulp.task('server', function(done) {
+  // return browsersync.init({
+  //     proxy: config.siteurl
+  // });
+
   return browserSync({
     port: 3000,
     server: {

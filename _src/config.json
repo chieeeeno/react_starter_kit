@@ -1,5 +1,6 @@
 {
   "site_config":{
+    "siteurl": "test.com",
     "ga_account":"UA-XXXXXXXX-X",
     "tw_card":"summary"
   },
