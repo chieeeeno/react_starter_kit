@@ -1,8 +1,9 @@
 'use strict';
+var config = require('./_src/config.json');
 var gulp = require('gulp');
 var gutil = require('gulp-util');
 var $ = require('gulp-load-plugins')();
-var prettify = require('gulp-html-prettify');
+var beautify = require('gulp-html-beautify');
 var browserSync = require('browser-sync');
 var runSequence = require('run-sequence');
 
@@ -52,8 +53,10 @@ gulp.task('js', bundle);
 gulp.task("ejs", function() {
   return gulp.src(['./_src/ejs/**/*.ejs','!./_src/ejs/**/_*.ejs'])
     .pipe($.plumber())
-    .pipe($.ejs())
-    .pipe(prettify({indent_char: ' ', indent_size: 2}))
+    .pipe($.ejs({
+      site_config:config.site_config
+    }))
+    .pipe(beautify(config.build_config.beautify))
     .pipe($.rename({
         extname: '.html'
     }))
@@ -76,7 +79,7 @@ gulp.task('sass', function() {
       });
       console.log(err.message);
     })
-    .pipe($.autoprefixer('last 6 version'))
+    .pipe($.autoprefixer(config.build_config.autoprefixer))
     .pipe($.csscomb())
     .pipe($.sourcemaps.write())
     .pipe(gulp.dest('./css'))
@@ -96,15 +99,11 @@ gulp.task('sass-cache', function() {
 });
 
 // optimize img
-gulp.task('imgmin', function() {
+gulp.task('imagemin', function() {
   return gulp.src(['_src/img/**/*.+(jpg|jpeg|png|gif|svg)'])
     .pipe($.plumber())
     .pipe($.changed('./img'))
-    .pipe($.imagemin({
-      optimizationLevel: 3,
-      progressive: true,
-      interlaced: true
-    }))
+    .pipe($.imagemin(config.build_config.imagemin))
     .pipe(gulp.dest('./img'));
 });
 
@@ -140,7 +139,7 @@ gulp.task('default', function() {
       gulp.watch('./_src/scss/*{.scss,.sass}', ['sass']);
       gulp.watch('./js/*.js', ['bs-reload']);
       gulp.watch('./*.html', ['bs-reload']);
-      gulp.watch('_src/img/**/*.+(jpg|jpeg|png|gif|svg)', ['imgmin']);
+      gulp.watch('_src/img/**/*.+(jpg|jpeg|png|gif|svg)', ['imagemin']);
     }
   )
 });
