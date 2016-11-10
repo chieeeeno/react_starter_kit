@@ -1,0 +1,80 @@
+/******************************************************************
+
+Mixins
+
+Based on: Bones - github.com/eddiemachado/bones
+
+******************************************************************/
+
+/*
+USAGE: @include transition(all 0.2s ease-in-out);
+*/
+
+@mixin transition($transition...) {
+  // defining prefixes so we can use them in mixins below
+  $prefixes:      ("-webkit-", "" );
+  @each $prefix in $prefixes {
+    #{$prefix}transition: $transition;
+  }
+}
+
+/*********************
+CSS3 GRADIENTS
+*********************/
+
+/* @include css-gradient(#dfdfdf,#f8f8f8); */
+@mixin css-gradient($from: #dfdfdf, $to: #f8f8f8) {
+	background-color: $to;
+	background-image: -webkit-gradient(linear, left top, left bottom, from($from), to($to));
+	background-image: -webkit-linear-gradient(top, $from, $to);
+	background-image: -moz-linear-gradient(top, $from, $to);
+	background-image: -o-linear-gradient(top, $from, $to);
+	background-image: linear-gradient(to bottom, $from, $to);
+}
+
+/*********************
+BOX SIZING
+*********************/
+
+/* @include box-sizing(border-box); */
+@mixin box-sizing($type: border-box) {
+	-webkit-box-sizing: $type;
+	-moz-box-sizing:    $type;
+	-ms-box-sizing:     $type;
+	box-sizing:         $type;
+}
+
+
+//mixin setting
+@mixin fontsize($size: 16, $baseFs: 16) {
+  // retina仕様のデザイン(スマホサイト)の時はtrueにしてフォントサイズを半分にする
+  $retina:false;
+  @if($retina == true){
+    font-size: ($size)/2 + px;
+    font-size: (($size / $baseFs) / 2) * 1rem;
+  }@else{
+    font-size: $size + px;
+    font-size: ($size / $baseFs) * 1rem;
+  }
+}
+
+@mixin fontsizePx($size: 16, $baseFs: 16) {
+  // retina仕様のデザイン(スマホサイト)の時はtrueにしてフォントサイズを半分にする
+  $retina:true;
+  @if($retina == true){
+    font-size: ($size)/2 + px;
+  }@else{
+    font-size: $size + px;
+  }
+}
+
+@mixin calcWidth($w){
+  $baseW:640;
+  $width : ($w / $baseW) * 100;
+  width: $width + %;
+}
+@mixin calcMinWidth($w){
+  $baseW:640;
+  $width : ($w / $baseW) * 100;
+  min-width: $width + %;
+}
