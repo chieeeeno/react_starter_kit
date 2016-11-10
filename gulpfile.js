@@ -13,7 +13,6 @@ var bebelify = require('babelify');
 
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
-var sourcemaps = require('gulp-sourcemaps');
 
 var b = browserify({
   entries: ['./_src/js/index.jsx'],
@@ -30,8 +29,8 @@ function bundle(){
     .on('error', gutil.log.bind(gutil, 'Browserify Error')  )
     .pipe(source('bundle.js'))
     .pipe(buffer())
-    .pipe(sourcemaps.init({loadMaps: true}))
-    .pipe(sourcemaps.write('./'))
+    .pipe($.sourcemaps.init({loadMaps: true}))
+    .pipe($.sourcemaps.write('./'))
     .pipe(gulp.dest('./js'));
 }
 
@@ -52,6 +51,7 @@ gulp.task('js', bundle);
 // ejs compile
 gulp.task("ejs", function() {
   return gulp.src(['./_src/ejs/**/*.ejs','!./_src/ejs/**/_*.ejs'])
+    .pipe($.plumber())
     .pipe($.ejs())
     .pipe(prettify({indent_char: ' ', indent_size: 2}))
     .pipe($.rename({
@@ -98,6 +98,7 @@ gulp.task('sass-cache', function() {
 // optimize img
 gulp.task('imgmin', function() {
   return gulp.src(['_src/img/**/*.+(jpg|jpeg|png|gif|svg)'])
+    .pipe($.plumber())
     .pipe($.changed('./img'))
     .pipe($.imagemin({
       optimizationLevel: 3,
