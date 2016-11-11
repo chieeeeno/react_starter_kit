@@ -2,7 +2,9 @@
   "site_config":{
     "siteurl": "test.com",
     "ga_account":"UA-XXXXXXXX-X",
-    "tw_card":"summary"
+    "tw_card":true,
+    "tw_card_type":"app",
+    "fb_app_links":true
   },
   "build_config":{
     "beautify":{
