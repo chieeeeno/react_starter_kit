@@ -1,13 +1,35 @@
-import AppDispatcher from '../dispatcher/AppDispatcher'
-export const SAY_SOMETHING = 'SAY_SOMETHING'
+import Axios from 'axios';
+import * as ActionType from '../constants/ActionType';
 
-var SampleActions = {
-  saySomething(word) {
-    AppDispatcher.dispatch({
-      actionType: SAY_SOMETHING,
-      word
-    });
-  }
-};
+export function loadData(url) {
+  console.log(url)
+  return dispatch => {
+    dispatch(loadDataRequest());
+    Axios({
+      url: url,
+      timeout: 20000,
+      method: 'get',
+      responseType: 'json'
+    }).then((response)=>{
+      console.log(response.data)
+      dispatch(loadDataResult(response.data))
+    }).catch((error)=>{
+      alert('error')
+      console.error('loadData',error)
+      dispatch(loadDataResult(false))
+    })
+  };
+}
 
-export default SampleActions
+function loadDataRequest() {
+  return {
+    type: ActionType.REQUEST
+  };
+}
+
+function loadDataResult(result) {
+  return {
+    type: ActionType.RESULT,
+    result,
+  };
+}

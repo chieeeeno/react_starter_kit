@@ -1,8 +1,16 @@
 import React from 'react'
-import {render} from 'react-dom';
-import ExampleApp from './components/ExampleApp'
-// import ExampleApp from './components/Hoge.jsx'
-render(
-  <ExampleApp />,
-  document.getElementById('root')
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+
+import ExampleApp from './components/ExampleApp.jsx';
+import createFinalStore from './stores/SampleStore';
+
+const store = createFinalStore();
+const rootElement = document.getElementById('root');
+
+ReactDOM.render(
+  <Provider store={store}>
+    <ExampleApp />
+  </Provider>,
+  rootElement
 )
