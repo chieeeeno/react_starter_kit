@@ -85,14 +85,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-// import * as TabConfigActions from '../actions/TabConfigActions';
 
-var hoge = 'hoge';
-console.log(_SampleStore2.default);
-console.log(SampleActions);
-
-var ExampleApp = function (_React$Component) {
-  _inherits(ExampleApp, _React$Component);
+var ExampleApp = function (_Component) {
+  _inherits(ExampleApp, _Component);
 
   function ExampleApp(props) {
     _classCallCheck(this, ExampleApp);
@@ -118,10 +113,12 @@ var ExampleApp = function (_React$Component) {
       var _this2 = this;
 
       this.props.sampleActions.loadData('./data.json');
+      // console.log(this.props.sampleData.items.data)
       setTimeout(function () {
         _this2.setState({
           data: _this2.props.sampleData.items.data
         });
+        // console.log(this.props.sampleData.items.data)
       }, 1000);
     }
   }, {
@@ -143,7 +140,7 @@ var ExampleApp = function (_React$Component) {
   }]);
 
   return ExampleApp;
-}(_react2.default.Component);
+}(_react.Component);
 
 ExampleApp.propTypes = {
   sampleData: _react2.default.PropTypes.object
@@ -163,7 +160,6 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  console.log(SampleActions, hoge);
   return {
     sampleActions: (0, _redux.bindActionCreators)(SampleActions, dispatch)
   };

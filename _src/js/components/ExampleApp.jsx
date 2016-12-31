@@ -1,16 +1,12 @@
-import React from 'react'
+import React , {Component} from 'react'
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-// import * as TabConfigActions from '../actions/TabConfigActions';
 
 import SampleStore from '../stores/SampleStore'
 import * as SampleActions from '../actions/SampleActions'
 
 
-let hoge = 'hoge'
-console.log(SampleStore)
-console.log(SampleActions)
-class ExampleApp extends React.Component {
+class ExampleApp extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -31,12 +27,13 @@ class ExampleApp extends React.Component {
 
   _loadData() {
     this.props.sampleActions.loadData('./data.json')
+    // console.log(this.props.sampleData.items.data)
     setTimeout(()=>{
       this.setState({
         data:this.props.sampleData.items.data
       });
+      // console.log(this.props.sampleData.items.data)
     },1000)
-
   }
 
 
@@ -44,16 +41,11 @@ class ExampleApp extends React.Component {
     return(
       <div>
         <input type="button" value="load!" onClick={this._loadData} />
-
-
           {this.state.data.map((item, index) => (
             <div key={index}>
               {item}
             </div>
-
           ))}
-
-
       </div>
     )
   }
@@ -78,7 +70,6 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  console.log(SampleActions,hoge)
   return {
     sampleActions: bindActionCreators(SampleActions, dispatch)
   };
